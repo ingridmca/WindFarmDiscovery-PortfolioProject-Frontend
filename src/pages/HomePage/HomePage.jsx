@@ -1,30 +1,22 @@
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import WindyMap from "../../components/WindyMap/windyMap";
+import { fetchTurbines } from "../../store/windfarms/thunk";
 import "./leaflet.css";
 
 const HomePage = () => {
-  useEffect(() => {
-    window.windyInit(
-      {
-        key: "p8gpG9VT6Qp6VHhnGWjEKMfs7xjSO3lE",
-        verbose: true,
-        lat: 28.37,
-        lon: -81.5194,
-        zoom: 4,
-      },
-      (windyAPI) => {
-        const { map } = windyAPI;
+  const dispatch = useDispatch();
 
-        window.L.popup()
-          .setLatLng([28.37, -81.5194])
-          .setContent("Hello World")
-          .openOn(map);
-      }
-    );
-  }, []);
+  //Fetch USWTDB API
+
+  useEffect(() => {
+    console.log("Fetch USWTDB API");
+    dispatch(fetchTurbines("Fetch USWTDB API"));
+  }, [dispatch]);
 
   return (
-    <div>
-      <div id="windy"></div>
+    <div style={{ position: "relative", marginTop: -64 }}>
+      <WindyMap />
     </div>
   );
 };
