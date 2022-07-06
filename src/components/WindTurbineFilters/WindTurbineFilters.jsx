@@ -1,61 +1,59 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { selectWindTurbines } from "../../store/windfarms/selector";
+import {
+  selectWindTurbines,
+  selectFilters,
+} from "../../store/windfarms/selector";
+import { setRatedPower, setSupplier } from "../../store/windfarms/slice";
+import "./WindTurbineFilter.css";
 
 const WindTurbineFilters = (props) => {
-  const windTurbines = useSelector(selectWindTurbines);
-  const [supplier, setSupplier] = useState("");
-  const [ratedPower, setRatedPower] = useState(0);
+  const dispatch = useDispatch();
   const [year, setYear] = useState(0);
   const [height, setheight] = useState(0);
+  const { supplier, ratedPower } = useSelector(selectFilters);
+
+  console.log({ supplier, ratedPower });
 
   const handleChange = (event) => {
-    setSupplier(event.target.value);
+    dispatch(setSupplier(event.target.value));
   };
-
-  if (supplier === "" && ratedPower === 0 && year === 0 && height === 0) {
-    props.setWindTurbines(windTurbines);
-  } else {
-    const filteredbySupplier =
-      windTurbines.filter((wt) => wt.p_name === supplier).length === 0
-        ? windTurbines
-        : windTurbines.filter((wt) => wt.p_name === supplier);
-
-    const filteredbySupplierAndPower =
-      filteredbySupplier.filter((wt) => wt.t_cap <= ratedPower).length === 0
-        ? filteredbySupplier
-        : filteredbySupplier.filter((wt) => wt.t_cap <= ratedPower);
-
-    const filteredbySupplierPowerAndYear =
-      filteredbySupplierAndPower.filter((wt) => wt.p_year <= year).length === 0
-        ? filteredbySupplierAndPower
-        : filteredbySupplierAndPower.filter((wt) => wt.p_year <= year);
-
-    const filteredbySupplierPoweYearAndHeight =
-      filteredbySupplierPowerAndYear.filter((wt) => wt.t_hh <= height)
-        .length === 0
-        ? filteredbySupplierPowerAndYear
-        : filteredbySupplierPowerAndYear.filter((wt) => wt.t_hh <= height);
-
-    props.setWindTurbines(filteredbySupplierPoweYearAndHeight);
-  }
+  const filtersHandler = (event) => {
+    dispatch(setRatedPower(Number(event.target.value)));
+    console.log(ratedPower);
+  };
   return (
     <Filters>
-      <label>Filter by supplier</label>
+      <label>Supplier</label>
       <select value={supplier} onChange={(event) => handleChange(event)}>
         <option value="">All Suppliers</option>
         <option value="GE Wind">GE</option>
         <option value="Vestas">Vestas</option>
         <option value="Gamesa">Gamesa</option>
       </select>
+      <label>Rated Power</label>
+      <Slider>
+        <input
+          type="range"
+          min="0"
+          max="6"
+          step="0.1"
+          value={ratedPower}
+          id="ratedPower"
+          onChange={filtersHandler}
+        />
+        {ratedPower}
+      </Slider>
+      {/* <div>{windfarm}</div> */}
     </Filters>
   );
 };
 export default WindTurbineFilters;
 
 const Filters = styled.div`
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(169, 169, 169, 0.5);
+  width: 160px;
   color: white;
   padding: 0 2rem;
   z-index: 2;
@@ -67,4 +65,7 @@ const Filters = styled.div`
   position: fixed;
   top: 11%;
   right: 0;
+`;
+const Slider = styled.div`
+  padding: 2 0rem;
 `;

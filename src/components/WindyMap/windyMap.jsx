@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { selectWindTurbines } from "../../store/windfarms/selector";
+import { filterWindTurbines } from "../../store/windfarms/selector";
 import WindTurbineFilters from "../WindTurbineFilters/WindTurbineFilters";
 
 import "./windyMap.css";
 
 const WindyMap = () => {
-  const windTurbinesI = useSelector(selectWindTurbines);
-  const [windTurbines, setWindTurbines] = useState(windTurbinesI);
+  const windTurbines = useSelector(filterWindTurbines);
+
+  console.log(windTurbines);
+
   const [map, setMap] = useState();
   let navigate = useNavigate();
 
@@ -35,9 +37,11 @@ const WindyMap = () => {
   }, []);
 
   useEffect(() => {
-    if (!map || windTurbines.lenght === 0) {
+    if (!map) {
       return;
     }
+
+    // clean up map before re-rendering the new filters.
 
     const markerOnClick = (e) => {
       const windfarm = windTurbines.filter(
@@ -59,10 +63,7 @@ const WindyMap = () => {
     <div>
       <div id="windy"></div>
 
-      <WindTurbineFilters
-        setWindTurbines={setWindTurbines}
-        windTurbines={windTurbines}
-      />
+      <WindTurbineFilters windTurbines={windTurbines} />
     </div>
   );
 };
