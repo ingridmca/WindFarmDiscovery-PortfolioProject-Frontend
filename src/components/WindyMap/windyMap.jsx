@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { filterWindTurbines } from "../../store/windfarms/selector";
+import { filterWindFarms } from "../../store/windfarms/selector";
 import WindTurbineFilters from "../WindTurbineFilters/WindTurbineFilters";
 
 import "./windyMap.css";
 
 const WindyMap = () => {
-  const windTurbines = useSelector(filterWindTurbines);
-
-  console.log(windTurbines);
+  const windFarms = useSelector(filterWindFarms);
+  const [markerLayer, setMarkerLayer] = useState();
 
   const [map, setMap] = useState();
   let navigate = useNavigate();
@@ -41,10 +40,12 @@ const WindyMap = () => {
       return;
     }
 
-    // clean up map before re-rendering the new filters.
+    if (markerLayer) {
+      markerLayer.clearLayers();
+    }
 
     const markerOnClick = (e) => {
-      const windfarm = windTurbines.filter(
+      const windfarm = windFarms.filter(
         (wt) => wt.ylat === e.latlng.lat && wt.xlong === e.latlng.lng
       )[0].p_name;
 
@@ -53,17 +54,27 @@ const WindyMap = () => {
       //console.log(e.latlng.lat, e.latlng.lng, windfarm);
     };
 
-    windTurbines.forEach((e) => {
-      window.L.marker([e.ylat, e.xlong]).addTo(map).on("click", markerOnClick);
+    const markers = windFarms.map((e) => {
+      const marker = window.L.marker([e.ylat, e.xlong]).on(
+        "click",
+        markerOnClick
+      );
+
+      // map.addLayer(marker);
+      return marker;
       // window.L.marker([e.ylat, e.xlong], { icon: windTurbineIcon })
     });
-  }, [windTurbines, map, navigate]);
+    const newMarkersLayer = window.L.layerGroup(markers);
+    map.addLayer(newMarkersLayer);
+
+    setMarkerLayer(newMarkersLayer);
+  }, [windFarms, map, navigate]);
 
   return (
     <div>
       <div id="windy"></div>
 
-      <WindTurbineFilters windTurbines={windTurbines} />
+      <WindTurbineFilters windFarms={windFarms} />
     </div>
   );
 };

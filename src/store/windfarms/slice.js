@@ -5,6 +5,8 @@ const initialState = {
   filters: {
     supplier: null,
     ratedPower: 0,
+    year: 1990,
+    height: 50,
   },
 };
 
@@ -22,27 +24,21 @@ export const balanceSlice = createSlice({
     setRatedPower: (state, action) => {
       state.filters.ratedPower = action.payload;
     },
-    turbinesFilter: (state, action) => {
-      const filteredbySupplier =
-        action.payload.supplier === ""
-          ? state.windTurbines
-          : state.windTurbines.filter(
-              (wt) => wt.p_name === action.payload.supplier
-            );
-
-      const filteredbySupplierAndPower =
-        action.payload.ratedPower === 0
-          ? filteredbySupplier
-          : filteredbySupplier.filter(
-              (wt) => wt.t_cap <= action.payload.ratedPower
-            );
-
-      console.log(state.windTurbines, action.payload);
+    setOperationalYear: (state, action) => {
+      state.filters.year = action.payload;
+    },
+    setHeight: (state, action) => {
+      state.filters.height = action.payload;
     },
   },
 });
 
-export const { turbinesFetched, turbinesFilter, setSupplier, setRatedPower } =
-  balanceSlice.actions;
+export const {
+  turbinesFetched,
+  setSupplier,
+  setRatedPower,
+  setOperationalYear,
+  setHeight,
+} = balanceSlice.actions;
 
 export default balanceSlice.reducer;

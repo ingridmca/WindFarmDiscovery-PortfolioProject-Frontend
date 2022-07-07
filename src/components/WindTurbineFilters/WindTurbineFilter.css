@@ -32,3 +32,9 @@
   background: #04aa6d;
   cursor: pointer;
 }
+
+.selector {
+  background: transparent;
+  color: white;
+  border-radius: 20px;
+}
