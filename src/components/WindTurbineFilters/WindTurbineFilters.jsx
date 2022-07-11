@@ -167,7 +167,7 @@ const Filters = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  margin-top: 50px;
+  margin-top: 20px;
   height: 40%;
 `;
 

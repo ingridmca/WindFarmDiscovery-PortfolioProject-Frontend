@@ -43,6 +43,7 @@ const WindyMap = () => {
     if (markerLayer) {
       markerLayer.clearLayers();
     }
+    //console.log(markerLayer);
 
     const markerOnClick = (e) => {
       const windfarm = windFarms.filter(
@@ -60,7 +61,6 @@ const WindyMap = () => {
         markerOnClick
       );
 
-      // map.addLayer(marker);
       return marker;
       // window.L.marker([e.ylat, e.xlong], { icon: windTurbineIcon })
     });
@@ -68,11 +68,12 @@ const WindyMap = () => {
     map.addLayer(newMarkersLayer);
 
     setMarkerLayer(newMarkersLayer);
+    // console.log(markerLayer);
   }, [windFarms, map, navigate]);
 
   return (
     <div>
-      <div id="windy"></div>
+      <div id="windy" className="windy"></div>
 
       <WindTurbineFilters windFarms={windFarms} />
     </div>

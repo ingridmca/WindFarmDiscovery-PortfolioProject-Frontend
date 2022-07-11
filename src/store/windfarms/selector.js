@@ -27,3 +27,17 @@ export const filterWindFarms = (reduxState) => {
 export const selectFilters = (reduxState) => {
   return reduxState.windfarms.filters;
 };
+
+export const selectwindFarm = (name) => (reduxState) => {
+  return reduxState.windfarms.windTurbines.filter(
+    (wt) => wt.p_name === name.p_name
+  );
+};
+
+export const selectwindTurbineType = () => (reduxState) => {
+  return reduxState.windfarms.windFarmsDetails;
+};
+
+export const selectWindTuebinesFromFarm = () => (reduxState) => {
+  return reduxState.windfarms.windTurbinesFromAFarm;
+};

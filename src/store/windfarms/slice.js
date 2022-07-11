@@ -8,6 +8,8 @@ const initialState = {
     year: 1990,
     height: 50,
   },
+  windFarmsDetails: null,
+  windTurbinesFromAFarm: [],
 };
 
 export const balanceSlice = createSlice({
@@ -30,6 +32,12 @@ export const balanceSlice = createSlice({
     setHeight: (state, action) => {
       state.filters.height = action.payload;
     },
+    windFarmDetailsFetched: (state, action) => {
+      state.windFarmsDetails = { ...action.payload };
+    },
+    windTurbinesFromAFarmFetched: (state, action) => {
+      state.windTurbinesFromAFarm = [...action.payload];
+    },
   },
 });
 
@@ -39,6 +47,8 @@ export const {
   setRatedPower,
   setOperationalYear,
   setHeight,
+  windFarmDetailsFetched,
+  windTurbinesFromAFarmFetched,
 } = balanceSlice.actions;
 
 export default balanceSlice.reducer;
