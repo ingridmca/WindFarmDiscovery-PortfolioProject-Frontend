@@ -36,7 +36,7 @@ const WindFarmsList = () => {
           windfarmsArray[pageNumber].length !== 0 &&
           windfarmsArray[pageNumber].map((wf) => (
             <WindFarms key={wf.p_name}>
-              <Link to={`/${wf.p_name}}`}>{wf.p_name}</Link>
+              <Link to={`/${wf.p_name}`}>{wf.p_name}</Link>
             </WindFarms>
           ))}
       </div>

@@ -36,7 +36,7 @@ const WindFarmWindyMap = (props) => {
     if (!map || !windTurbines) {
       return;
     }
-    console.log(windTurbines);
+    //console.log(windTurbines);
     const windTurbineIcon = window.L.icon({
       iconUrl: "windmill.png",
       iconSize: [30, 32],

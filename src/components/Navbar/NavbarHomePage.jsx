@@ -20,7 +20,7 @@ export const NavigationHomePage = () => {
         </MenuLink>
       </Menu>
       <Logo href="/">
-        Codaisseur<span>templates</span>
+        Wind Farm<span>Discovery</span>
       </Logo>
     </Nav>
   );

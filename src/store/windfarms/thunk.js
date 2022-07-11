@@ -56,10 +56,13 @@ export const fetchTurbines = () => async (dispatch, getState) => {
 export const fetchWindFarms = (turbineModel) => async (dispatch, getState) => {
   try {
     const response = await axios.get(`${DB_URL}/windfarm`);
-    const windFarm = response.data.filter((wf) => wf.model === turbineModel)[0];
+    const windFarm = response.data.filter((wf) => {
+      // console.log("thunk response", wf.model, turbineModel);
+      return wf.model === turbineModel;
+    })[0];
 
     dispatch(windFarmDetailsFetched(windFarm));
-    // console.log("response", windFarm);
+    //console.log("response", response, windFarm);
   } catch (e) {
     console.log(e.message);
   }

@@ -20,7 +20,7 @@ export const NavigationPages = () => {
         </MenuLink>
       </Menu>
       <Logo href="/">
-        Codaisseur<span>templates</span>
+        Wind Farm<span>Discovery</span>
       </Logo>
     </Nav>
   );
@@ -51,7 +51,7 @@ const Nav = styled.div`
   left: 0;
   right: 0;
   z-index: 2;
-  background: aquamarine;
+  background: #dcdcdc;
 `;
 
 const Logo = styled.a`
