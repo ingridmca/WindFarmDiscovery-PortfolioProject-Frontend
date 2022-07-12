@@ -46,7 +46,7 @@ const DetailsPage = () => {
               <div>Wind farm rated rower: {windFarmData.p_cap}</div>
               <div>Wind farm number of turbines: {windFarmData.p_tnum}</div>
               <div>Wind farm operational start: {windFarmData.p_year}</div>
-              <div>Wind turbine supplier {windTurbineType.supplier} </div>
+              <div>Wind turbine supplier: {windTurbineType.supplier} </div>
               <div>Wind turbine model: {windTurbineType.model}</div>
               <div>Wind turbine gearbox: {windTurbineType.gearbox}</div>
               <div>
@@ -59,11 +59,13 @@ const DetailsPage = () => {
             </TechnicalSpecification>
           </div>
           <Map>
-            <WindFarmWindyMap
-              xlong={windFarmData.xlong}
-              ylat={windFarmData.ylat}
-              p_name={windFarmData.p_name}
-            />
+            {windFarmData && (
+              <WindFarmWindyMap
+                xlong={windFarmData.xlong}
+                ylat={windFarmData.ylat}
+                p_name={windFarmData.p_name}
+              />
+            )}
           </Map>
         </PageStructure>
       </div>

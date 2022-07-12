@@ -35,6 +35,9 @@ const WindyMap = () => {
     );
   }, []);
 
+  const testClick = () => {
+    console.log("hello");
+  };
   useEffect(() => {
     if (!map) {
       return;
@@ -47,7 +50,7 @@ const WindyMap = () => {
 
     const markerOnClick = (e) => {
       const windfarm = windFarms.filter(
-        (wt) => wt.ylat === e.latlng.lat && wt.xlong === e.latlng.lng
+        (wt) => wt.ylat === e.ylat && wt.xlong === e.xlong
       )[0].p_name;
 
       navigate(`/${windfarm}`);
@@ -56,13 +59,32 @@ const WindyMap = () => {
     };
 
     const markers = windFarms.map((e) => {
-      const marker = window.L.marker([e.ylat, e.xlong]).on(
-        "click",
-        markerOnClick
-      );
+      const marker = window.L.marker([e.ylat, e.xlong])
+        .bindPopup(
+          "Wind Farm: " +
+            e.p_name +
+            '<br/><button type="button" id="popup-button" class="btn btn-primary sidebar-open-button" data = "' +
+            '" ' +
+            ">Click for more</button>"
+        )
+        .on("popupopen", (a) => {
+          const button = document.getElementById("popup-button");
+          console.log("do I have popup", e);
+
+          button.addEventListener("click", (event) => {
+            markerOnClick(e);
+          });
+        });
+      // .addEventListener("click", () => {
+      //   markerOnClick();
+      // });
+
+      // const marker = window.L.marker([e.ylat, e.xlong]).on(
+      //   "click",
+      //   markerOnClick
+      // );
 
       return marker;
-      // window.L.marker([e.ylat, e.xlong], { icon: windTurbineIcon })
     });
     const newMarkersLayer = window.L.layerGroup(markers);
     map.addLayer(newMarkersLayer);

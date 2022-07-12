@@ -13,7 +13,7 @@ import "./WindTurbineFilter.css";
 
 const WindTurbineFilters = (props) => {
   const dispatch = useDispatch();
-  const [filters, setFilters] = useState(false);
+  const [filters, setFilters] = useState(true);
 
   const { supplier, ratedPower, year, height } = useSelector(selectFilters);
 

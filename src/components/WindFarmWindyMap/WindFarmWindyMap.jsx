@@ -6,7 +6,9 @@ import { selectWindTuebinesFromFarm } from "../../store/windfarms/selector";
 import { turbinesFromAWindFarm } from "../../store/windfarms/thunk";
 
 const WindFarmWindyMap = (props) => {
-  const [map, setMap] = useState();
+  const [map, setMap] = useState(null);
+  const [ylat, setYLat] = useState(props.ylat);
+  const [xlong, setXLong] = useState(props.xlong);
   const windFarmName = props.p_name;
   const dispatch = useDispatch();
   const windTurbines = useSelector(selectWindTuebinesFromFarm());
@@ -29,14 +31,34 @@ const WindFarmWindyMap = (props) => {
   }, [props.ylat, props.xlong]);
 
   useEffect(() => {
+    if (map) {
+      console.log("pan to");
+      map.panTo({ lon: xlong, lat: ylat });
+    }
+  }, [map, xlong, ylat]);
+
+  useEffect(() => {
     dispatch(turbinesFromAWindFarm(windFarmName));
   }, [windFarmName, dispatch]);
 
   useEffect(() => {
-    if (!map || !windTurbines) {
+    if (!windTurbines?.lenght) {
       return;
     }
-    //console.log(windTurbines);
+
+    const maxXlong = Math.max(...windTurbines.map((wt) => wt.xlong));
+    const minXlong = Math.min(...windTurbines.map((wt) => wt.xlong));
+    const maxYlat = Math.max(...windTurbines.map((wt) => wt.ylat));
+    const minYlat = Math.min(...windTurbines.map((wt) => wt.ylat));
+    setYLat((maxYlat + minYlat) / 2);
+    setXLong((maxXlong + minXlong) / 2);
+  }, [windTurbines]);
+
+  useEffect(() => {
+    if (!map || !windTurbines || windTurbines.lenght === 0) {
+      return;
+    }
+
     const windTurbineIcon = window.L.icon({
       iconUrl: "windmill.png",
       iconSize: [30, 32],
@@ -44,8 +66,6 @@ const WindFarmWindyMap = (props) => {
 
     windTurbines.forEach((e) => {
       window.L.marker([e.ylat, e.xlong], { icon: windTurbineIcon }).addTo(map);
-
-      // window.L.marker([e.ylat, e.xlong], { icon: windTurbineIcon })
     });
   }, [windTurbines, map]);
 
