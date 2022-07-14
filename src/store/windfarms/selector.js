@@ -1,6 +1,3 @@
-export const selectWindTurbines = (reduxState) =>
-  reduxState.windfarms.windTurbines;
-
 export const filterWindFarms = (reduxState) => {
   const { supplier, ratedPower, year, height } = reduxState.windfarms.filters;
   const allTurbines = reduxState.windfarms.windTurbines;
@@ -40,4 +37,98 @@ export const selectwindTurbineType = () => (reduxState) => {
 
 export const selectWindTuebinesFromFarm = () => (reduxState) => {
   return reduxState.windfarms.windTurbinesFromAFarm;
+};
+
+export const selectTurbinesPerformanceFarms = () => (reduxState) => {
+  const data = reduxState.windfarms.windTurbinesPerformance;
+  if (!data || data.length === 0) {
+    return [];
+  }
+  const windfarms = data.map((wt) => wt.turbine.p_name);
+
+  return [...new Set(windfarms)];
+};
+
+export const selectTurbinesPerformanceTurbines = (windfarm) => (reduxState) => {
+  const data = reduxState.windfarms.windTurbinesPerformance;
+  if (!data || data.length === 0) {
+    return [];
+  }
+  const turbines = data
+    .filter((wt) => wt.turbine.p_name === windfarm)
+    .map((wt) => wt.case_id);
+  return [...new Set(turbines)];
+};
+
+export const selectTurbinesPerformanceProduction =
+  (windFarm) => (reduxState) => {
+    const data = reduxState.windfarms.windTurbinesPerformance;
+    if (!data || data.length === 0) {
+      return [];
+    }
+
+    const windFarmFiltered = data
+      .filter((wf) => windFarm.includes(wf.turbine.p_name))
+      .map((wtPower) => wtPower.avgPower);
+    const initialValue = 0;
+
+    const production = windFarmFiltered.reduce((pWtPower, cWtPower) => {
+      return pWtPower + cWtPower;
+    }, initialValue);
+
+    return Math.floor(production / 1000) / 100;
+  };
+
+export const selectTurbinesPerformanceAvaiability =
+  (windFarm) => (reduxState) => {
+    const data = reduxState.windfarms.windTurbinesPerformance;
+    if (!data || data.length === 0) {
+      return [];
+    }
+
+    const windFarmFiltered = data
+      .filter((wf) => windFarm.includes(wf.turbine.p_name))
+      .map((wtAvaiability) => wtAvaiability.avgAvaiability);
+    const initialValue = 0;
+
+    const availability = windFarmFiltered.reduce(
+      (pWtAvaiability, cWtAvaiability) => {
+        return pWtAvaiability + cWtAvaiability;
+      },
+      initialValue
+    );
+    const windFarmFilteredSize = windFarmFiltered.length;
+
+    //console.log("windFarmFiltered", availability);
+    return Math.floor((availability * 100) / windFarmFilteredSize) / 100;
+  };
+
+export const selectTurbinesPerformancePerformanceIndex =
+  (windFarm) => (reduxState) => {
+    const data = reduxState.windfarms.windTurbinesPerformance;
+    if (!data || data.length === 0) {
+      return [];
+    }
+
+    const windFarmFiltered = data
+      .filter((wf) => windFarm.includes(wf.turbine.p_name))
+      .map((wtPerformance) => wtPerformance.avgPerformance);
+    const initialValue = 0;
+
+    const performance = windFarmFiltered.reduce(
+      (pWtPerformance, cWtPerformance) => {
+        return pWtPerformance + cWtPerformance;
+      },
+      initialValue
+    );
+    const windFarmFilteredSize = windFarmFiltered.length;
+
+    //console.log("windFarmFiltered", performance);
+    return Math.floor((performance * 100) / windFarmFilteredSize) / 100;
+  };
+
+export const selectPerformanceFilters = () => (reduxState) => {
+  const _ = require("lodash");
+  const filterData = reduxState.windfarms.performancePageFilter;
+  return _.keys(_.pickBy(filterData, _.identity));
 };

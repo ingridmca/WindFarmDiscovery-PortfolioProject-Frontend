@@ -6,6 +6,7 @@ import "./App.css";
 import DetailsPage from "./pages/DetailsPage/DetailsPage";
 import HomePage from "./pages/HomePage/HomePage";
 import Login from "./pages/Login/Login";
+import PerformancePage from "./pages/PerformancePage/PerformancePage";
 import { SignUp } from "./pages/Singup/SignUp";
 import { fetchTurbines } from "./store/windfarms/thunk";
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/performance" element={<PerformancePage />} />
         <Route path="/:p_name" element={<DetailsPage />} />
       </Routes>
     </div>

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { act } from "react-dom/test-utils";
 
 const initialState = {
   windTurbines: [],
@@ -10,6 +11,8 @@ const initialState = {
   },
   windFarmsDetails: null,
   windTurbinesFromAFarm: [],
+  windTurbinesPerformance: [],
+  performancePageFilter: { Groton: true, Winchester: true, "Bear Creek": true },
 };
 
 export const balanceSlice = createSlice({
@@ -17,7 +20,7 @@ export const balanceSlice = createSlice({
   initialState,
   reducers: {
     turbinesFetched: (state, action) => {
-      // console.log("turbinesFetched action", action);
+      console.log("turbinesFetched action", action);
       state.windTurbines = [...action.payload];
     },
     setSupplier: (state, action) => {
@@ -38,6 +41,22 @@ export const balanceSlice = createSlice({
     windTurbinesFromAFarmFetched: (state, action) => {
       state.windTurbinesFromAFarm = [...action.payload];
     },
+    windTurbinesPerformanceFetched: (state, action) => {
+      state.windTurbinesPerformance = [...action.payload];
+    },
+    windFarmsFilteredforPerformancePage: (state, action) => {
+      state.performancePageFilter = {
+        ...state.performancePageFilter,
+        ...action.payload,
+      };
+
+      console.log(
+        "performancePageFilter",
+        state.performancePageFilter,
+        "payload",
+        action.payload
+      );
+    },
   },
 });
 
@@ -49,6 +68,8 @@ export const {
   setHeight,
   windFarmDetailsFetched,
   windTurbinesFromAFarmFetched,
+  windTurbinesPerformanceFetched,
+  windFarmsFilteredforPerformancePage,
 } = balanceSlice.actions;
 
 export default balanceSlice.reducer;

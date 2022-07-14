@@ -43,7 +43,7 @@ const DetailsPage = () => {
               </Nav>
             </div>
             <TechnicalSpecification>
-              <div>Wind farm rated rower: {windFarmData.p_cap}</div>
+              <div>Wind farm rated rower: {windFarmData.t_cap / 1000}</div>
               <div>Wind farm number of turbines: {windFarmData.p_tnum}</div>
               <div>Wind farm operational start: {windFarmData.p_year}</div>
               <div>Wind turbine supplier: {windTurbineType.supplier} </div>
