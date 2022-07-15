@@ -1,9 +1,13 @@
 import axios from "axios";
+
 import {
   turbinesFetched,
   windFarmDetailsFetched,
+  windTurbinesAvailabilityConcatFetched,
+  windTurbinesAvailabilityFetched,
   windTurbinesFromAFarmFetched,
   windTurbinesPerformanceFetched,
+  windTurbinesPerformancePowerGraphFetched,
 } from "./slice";
 
 const API_URL = `http://localhost:4000`;
@@ -51,6 +55,53 @@ export const fetchwindTurbinesPerformance =
 
       dispatch(windTurbinesPerformanceFetched(windTurbinesPerformance));
       //console.log("response", response);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+export const fetchwindTurbinesPerformancePowerGraph =
+  (windfarms) => async (dispatch, getState) => {
+    try {
+      const response = await axios.get(
+        `${API_URL}/turbine/performance/powergraph/${windfarms}`
+      );
+      const windTurbinesPerformance = response.data;
+
+      dispatch(
+        windTurbinesPerformancePowerGraphFetched(windTurbinesPerformance)
+      );
+      //console.log("response", response);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+export const fetchwindTurbinesAvailability =
+  (windfarms) => async (dispatch, getState) => {
+    try {
+      const response = await axios.get(
+        `${API_URL}/turbine/performance/availability/${windfarms}`
+      );
+      const windTurbinesAvailability = response.data;
+
+      dispatch(windTurbinesAvailabilityFetched(windTurbinesAvailability));
+      //console.log("response", response);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+export const fetchwindTurbinesAvailabilityConcat =
+  (windfarms) => async (dispatch, getState) => {
+    try {
+      const response = await axios.get(
+        `${API_URL}/turbine/performance/availabilityconcat/${windfarms}`
+      );
+      const windTurbinesAvailability = response.data;
+
+      dispatch(windTurbinesAvailabilityConcatFetched(windTurbinesAvailability));
+      console.log("response", windTurbinesAvailability);
     } catch (e) {
       console.log(e.message);
     }

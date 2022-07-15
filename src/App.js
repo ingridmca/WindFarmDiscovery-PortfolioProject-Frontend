@@ -16,7 +16,7 @@ function App() {
   //Fetch USWTDB API
 
   useEffect(() => {
-    console.log("Fetch USWTDB API");
+    // console.log("Fetch USWTDB API");
     dispatch(fetchTurbines("Fetch USWTDB API"));
   }, [dispatch]);
 

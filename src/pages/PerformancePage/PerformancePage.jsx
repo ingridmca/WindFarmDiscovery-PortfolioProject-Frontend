@@ -2,36 +2,75 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import KeyMetrics from "../../components/KeyMetrics/KeyMetrics";
 import { NavigationPages } from "../../components/Navbar/NavbarPages";
-import { fetchwindTurbinesPerformance } from "../../store/windfarms/thunk";
+import _ from "lodash";
+import {
+  fetchwindTurbinesAvailability,
+  fetchwindTurbinesAvailabilityConcat,
+  fetchwindTurbinesPerformance,
+  fetchwindTurbinesPerformancePowerGraph,
+} from "../../store/windfarms/thunk";
 import styled from "styled-components";
 import CumulativeProduction from "../../components/CumulativeProduction/CumulativeProduction";
 import Availability from "../../components/ Availability/ Availability";
 import PowerCurve from "../../components/PowerCurve/PowerCurve";
-import { selectTurbinesPerformanceFarms } from "../../store/windfarms/selector";
-import WindFarmPerformanceToggle from "../../components/WindFarmPerformanceToggle/WindFarmPerformanceToggle";
+import { selectPerformanceFilters } from "../../store/windfarms/selector";
+import WindFarmPerformanceToggle from "../../components/WindFarmPerformanceToggle/WindFarmPerformanceToggle2";
 
 const PerformancePage = () => {
   const dispatch = useDispatch();
-  const windFarms = useSelector(selectTurbinesPerformanceFarms());
+  const windFarms = ["Groton", "Winchester", "Bear Creek"];
+  const windfarmsfilters = useSelector(selectPerformanceFilters());
 
   useEffect(() => {
+    dispatch(
+      fetchwindTurbinesPerformancePowerGraph(
+        _.keys(_.pickBy(windfarmsfilters, _.identity)).length === 0
+          ? windFarms
+          : _.keys(_.pickBy(windfarmsfilters, _.identity))
+      )
+    );
+
+    dispatch(
+      fetchwindTurbinesAvailability(
+        _.keys(_.pickBy(windfarmsfilters, _.identity)).length === 0
+          ? windFarms
+          : _.keys(_.pickBy(windfarmsfilters, _.identity))
+      )
+    );
+
     dispatch(fetchwindTurbinesPerformance());
-  }, [dispatch]);
+
+    dispatch(
+      fetchwindTurbinesAvailabilityConcat(
+        _.keys(_.pickBy(windfarmsfilters, _.identity)).length === 0
+          ? windFarms
+          : _.keys(_.pickBy(windfarmsfilters, _.identity))
+      )
+    );
+  }, [dispatch, windfarmsfilters]);
 
   return (
     <div>
       <NavigationPages />
       <Title>
-        Windmills<span>Dashboard</span>
+        Windmills<span> Dashboard</span>
       </Title>
 
       <PageDisplay>
         <Filters>
-          {windFarms.length === 0
-            ? "loading"
-            : windFarms.map((wf) => (
-                <WindFarmPerformanceToggle windfarm={wf} />
-              ))}
+          {windFarms.length === 0 ? (
+            "loading"
+          ) : (
+            <div>
+              <Title>
+                <span> Wind Farms</span>
+              </Title>
+
+              {windFarms.map((wf) => {
+                return <WindFarmPerformanceToggle windfarm={wf} key={wf} />;
+              })}
+            </div>
+          )}
         </Filters>
 
         <CentralPage>
@@ -76,7 +115,7 @@ const PageDisplay = styled.div`
 
 const Title = styled.div`
   padding: 1rem 0;
-  color: #a9a9a9;
+  color: #083241;
   text-decoration: none;
   font-weight: 800;
   font-size: 1.7rem;

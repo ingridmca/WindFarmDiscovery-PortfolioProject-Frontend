@@ -14,7 +14,7 @@ const WindFarmsList = () => {
 
   const pageNumberHendler = (event) => {
     const click = event.target.text;
-    console.log(click);
+    // console.log(click);
     if (click === "«" && pageNumber > 0) {
       setPageNumber(pageNumber - 1);
     } else if (click === "»" && pageNumber < windfarmsArray.length - 1) {

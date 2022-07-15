@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
+import style from "styled-components";
 import { useParams } from "react-router-dom";
 import {
   selectwindFarm,
@@ -9,6 +9,39 @@ import {
 import { fetchWindFarms } from "../../store/windfarms/thunk";
 import WindFarmWindyMap from "../../components/WindFarmWindyMap/WindFarmWindyMap";
 import { NavigationPages } from "../../components/Navbar/NavbarPages";
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: "#073242",
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
+function createData(name, calories, fat, carbs, protein) {
+  return { name, calories, fat, carbs, protein };
+}
 
 const DetailsPage = () => {
   const dispatch = useDispatch();
@@ -21,11 +54,25 @@ const DetailsPage = () => {
     dispatch(fetchWindFarms(turbineModel));
   }, [dispatch, turbineModel]);
 
-  console.log("windTurbineType", windTurbineType, "windFarmData", windFarmData);
-
   if (!windFarmData || !windTurbineType) {
     return;
   }
+
+  //console.log("windTurbineType", windTurbineType, "windFarmData", windFarmData);
+
+  const rows = [
+    createData("Wind farm number of turbines: ", windFarmData.p_tnum),
+    createData("Wind turbine supplier: ", windTurbineType.supplier),
+    createData("Wind farm operational start:", windFarmData.p_year),
+    createData("Wind turbine model: ", windTurbineType.model),
+    createData("Wind turbine gearbox: ", windTurbineType.gearbox),
+    createData("Wind turbine rotor diameter: ", windTurbineType.rotorDiameter),
+    createData(
+      "Wind turbine blade dimension: ",
+      windTurbineType.bladeDimension
+    ),
+    createData("Wind turbine description: ", windTurbineType.description),
+  ];
 
   return (
     <div>
@@ -43,19 +90,32 @@ const DetailsPage = () => {
               </Nav>
             </div>
             <TechnicalSpecification>
-              <div>Wind farm rated rower: {windFarmData.t_cap / 1000}</div>
-              <div>Wind farm number of turbines: {windFarmData.p_tnum}</div>
-              <div>Wind farm operational start: {windFarmData.p_year}</div>
-              <div>Wind turbine supplier: {windTurbineType.supplier} </div>
-              <div>Wind turbine model: {windTurbineType.model}</div>
-              <div>Wind turbine gearbox: {windTurbineType.gearbox}</div>
-              <div>
-                Wind turbine rotor diameter: {windTurbineType.rotorDiameter}
-              </div>
-              <div>
-                Wind turbine blade dimension: {windTurbineType.bladeDimension}
-              </div>
-              <div>Wind turbine description: {windTurbineType.description}</div>
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="customized table">
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell>Description</StyledTableCell>
+                      <StyledTableCell align="right">Value</StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {rows.map((row) => (
+                      <StyledTableRow key={row.name}>
+                        <StyledTableCell
+                          component="th"
+                          scope="row"
+                          style={{ width: 200 }}
+                        >
+                          {row.name}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          {row.calories}
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </TechnicalSpecification>
           </div>
           <Map>
@@ -74,32 +134,32 @@ const DetailsPage = () => {
 };
 export default DetailsPage;
 
-const TechnicalSpecification = styled.div`
-  background: rgba(68, 65, 65, 0.84);
+const TechnicalSpecification = style.div`
+ 
   width: 650px;
   color: white;
   display: flex;
   flex-direction: column;
-  top: 17%;
+
   align-items: start;
   justify-content: space-around;
-  padding: 0 2rem;
+
   height: 700px;
 `;
 
-const PageStructure = styled.div`
+const PageStructure = style.div`
   display: flex;
   height: 700px;
   flex-direction: row;
   justify-content: space-around;
 `;
 
-const Map = styled.div`
+const Map = style.div`
   display: flex;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 100px;
 `;
-const Nav = styled.div`
+const Nav = style.div`
 color:#585858
   padding: 0 2rem;
   display: flex;
@@ -114,9 +174,9 @@ color:#585858
   max-width: 320px;
 `;
 
-const Logo = styled.div`
+const Logo = style.div`
   padding: 1rem 0;
-  color: #585858;
+  color: rgb(17, 64, 81);
   text-decoration: none;
   font-weight: 800;
   font-size: 1.7rem;

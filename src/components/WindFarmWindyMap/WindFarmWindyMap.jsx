@@ -32,7 +32,7 @@ const WindFarmWindyMap = (props) => {
 
   useEffect(() => {
     if (map) {
-      console.log("pan to");
+      // console.log("pan to");
       map.panTo({ lon: xlong, lat: ylat });
     }
   }, [map, xlong, ylat]);

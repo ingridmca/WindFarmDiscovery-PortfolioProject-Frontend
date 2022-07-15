@@ -35,9 +35,6 @@ const WindyMap = () => {
     );
   }, []);
 
-  const testClick = () => {
-    console.log("hello");
-  };
   useEffect(() => {
     if (!map) {
       return;

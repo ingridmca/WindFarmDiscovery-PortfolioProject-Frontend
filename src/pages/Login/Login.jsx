@@ -26,6 +26,9 @@ const Login = () => {
   const submitForm = (e) => {
     e.preventDefault();
     dispatch(login(email, password));
+    if (token) {
+      navigate(`/`);
+    }
   };
 
   return (

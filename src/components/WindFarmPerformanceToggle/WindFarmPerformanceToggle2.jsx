@@ -1,5 +1,12 @@
-import Switch from "@mui/material/Switch";
+import * as React from "react";
+import List from "@mui/material/List";
+
+import ListItemButton from "@mui/material/ListItemButton";
+
+import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +14,6 @@ import { selectTurbinesPerformanceTurbines } from "../../store/windfarms/selecto
 import { windFarmsFilteredforPerformancePage } from "../../store/windfarms/slice";
 
 const WindFarmPerformanceToggle = (props) => {
-  const label = { inputProps: { "aria-label": "Switch demo" } };
   const [showTurbines, setShowTurbines] = useState(false);
   const [checkBox, setCheckBox] = useState(true);
   const dispatch = useDispatch();
@@ -15,7 +21,7 @@ const WindFarmPerformanceToggle = (props) => {
 
   const turbines = useSelector(selectTurbinesPerformanceTurbines(p_name));
 
-  const handleToggle = () => {
+  const handleToggleOpen = () => {
     setShowTurbines(!showTurbines);
   };
 
@@ -23,20 +29,40 @@ const WindFarmPerformanceToggle = (props) => {
     dispatch(windFarmsFilteredforPerformancePage({ [p_name]: checkBox }));
   }, [dispatch, checkBox, p_name]);
 
-  const handleFilter = () => {
+  const handleToggle = () => {
     setCheckBox(!checkBox);
   };
 
   return (
-    <div style={{ marginLeft: 20 }}>
-      <Checkbox
-        {...label}
-        defaultChecked
-        value={checkBox}
-        onClick={() => handleFilter()}
-      />
-      {p_name}
-      <Switch {...label} value={!showTurbines} onClick={() => handleToggle()} />
+    <div>
+      <List
+        sx={{
+          width: "100%",
+          maxWidth: 200,
+          bgcolor: "#ececec",
+          display: "flex",
+          flexDirection: "row",
+          marginLeft: 2,
+        }}
+      >
+        <Checkbox
+          edge="start"
+          defaultChecked
+          value={checkBox}
+          color="default"
+          onClick={() => handleToggle()}
+        />
+        <ListItemButton onClick={handleToggleOpen}>
+          <ListItemText
+            sx={{
+              fontWeight: 300,
+              color: "#083241",
+            }}
+            primary={p_name}
+          />
+          {showTurbines ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+      </List>
       <div>
         {showTurbines &&
           turbines.map((t) => (

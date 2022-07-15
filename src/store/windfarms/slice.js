@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { act } from "react-dom/test-utils";
 
 const initialState = {
   windTurbines: [],
@@ -13,6 +12,9 @@ const initialState = {
   windTurbinesFromAFarm: [],
   windTurbinesPerformance: [],
   performancePageFilter: { Groton: true, Winchester: true, "Bear Creek": true },
+  windTurbinesPerformancePowerGraph: [],
+  windTurbinesAvailability: [],
+  windTurbinesAvailabilityConcat: [],
 };
 
 export const balanceSlice = createSlice({
@@ -20,7 +22,6 @@ export const balanceSlice = createSlice({
   initialState,
   reducers: {
     turbinesFetched: (state, action) => {
-      console.log("turbinesFetched action", action);
       state.windTurbines = [...action.payload];
     },
     setSupplier: (state, action) => {
@@ -44,18 +45,21 @@ export const balanceSlice = createSlice({
     windTurbinesPerformanceFetched: (state, action) => {
       state.windTurbinesPerformance = [...action.payload];
     },
+    windTurbinesPerformancePowerGraphFetched: (state, action) => {
+      //console.log(action.payload);
+      state.windTurbinesPerformancePowerGraph = [...action.payload];
+    },
     windFarmsFilteredforPerformancePage: (state, action) => {
       state.performancePageFilter = {
         ...state.performancePageFilter,
         ...action.payload,
       };
-
-      console.log(
-        "performancePageFilter",
-        state.performancePageFilter,
-        "payload",
-        action.payload
-      );
+    },
+    windTurbinesAvailabilityFetched: (state, action) => {
+      state.windTurbinesAvailability = [...action.payload];
+    },
+    windTurbinesAvailabilityConcatFetched: (state, action) => {
+      state.windTurbinesAvailabilityConcat = [...action.payload];
     },
   },
 });
@@ -70,6 +74,9 @@ export const {
   windTurbinesFromAFarmFetched,
   windTurbinesPerformanceFetched,
   windFarmsFilteredforPerformancePage,
+  windTurbinesPerformancePowerGraphFetched,
+  windTurbinesAvailabilityFetched,
+  windTurbinesAvailabilityConcatFetched,
 } = balanceSlice.actions;
 
 export default balanceSlice.reducer;

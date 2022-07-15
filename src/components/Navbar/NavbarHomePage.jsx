@@ -1,24 +1,73 @@
 import styled from "styled-components";
 // import { useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
-//import { useDispatch, useSelector } from "react-redux";
-//import { selectToken } from "../store/user/selectors";
-//import { logOut } from "../store/user/slice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectToken } from "../../store/user/selectors";
+import { logOut } from "../../store/user/slice";
+import PersonIcon from "@mui/icons-material/Person";
+import * as React from "react";
+import Popover from "@mui/material/Popover";
+import WindPowerIcon from "@mui/icons-material/WindPower";
+import Button from "@mui/material/Button";
 
 export const NavigationHomePage = () => {
-  // const [open, setOpen] = useState(false);
+  //const [open, setOpen] = useState(false);
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  //const token = useSelector(selectToken);
+  const token = useSelector(selectToken);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
 
   return (
     <Nav>
       <Menu>
-        <MenuLink href="/login">
-          <AiOutlineUser />
-        </MenuLink>
+        {token ? (
+          <MenuLink>
+            <>
+              <PersonIcon
+                aria-describedby={id}
+                variant="contained"
+                onClick={handleClick}
+              />
+
+              <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+              >
+                <Button sx={{ p: 2 }} onClick={() => dispatch(logOut())}>
+                  Logout
+                </Button>
+              </Popover>
+            </>
+          </MenuLink>
+        ) : (
+          <MenuLink href="/login">
+            <AiOutlineUser />
+          </MenuLink>
+        )}
       </Menu>
+      {token && (
+        <MenuLink href="/performance">
+          <WindPowerIcon />
+        </MenuLink>
+      )}
       <Logo href="/">
         Wind Farm<span>Discovery</span>
       </Logo>
@@ -27,7 +76,7 @@ export const NavigationHomePage = () => {
 };
 
 const MenuLink = styled.a`
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
   cursor: pointer;
   text-align: center;
   text-decoration: none;
@@ -51,7 +100,7 @@ const Nav = styled.div`
   left: 0;
   right: 0;
   z-index: 2;
-  max-width: 320px;
+  max-width: 420px;
 `;
 
 const Logo = styled.a`

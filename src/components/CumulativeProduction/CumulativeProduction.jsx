@@ -8,49 +8,29 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
+import { useSelector } from "react-redux";
+import { selectPowerGraph } from "../../store/windfarms/selector";
 
 const CumulativeProduction = () => {
-  const data = [
-    {
-      name: "Page A",
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: "Page B",
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: "Page C",
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: "Page D",
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: "Page E",
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: "Page F",
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: "Page G",
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
+  const allData = useSelector(selectPowerGraph());
+  // console.log(allData[0]);
+  const data = allData.map((e) => {
+    return {
+      timestamp: e.timestamp,
+      avgPower: Math.floor(e.avgPower / 1000) / 100,
+    };
+  });
+
+  if (data.length === 0 || !data) {
+    return "Loading";
+  }
 
   return (
     <Box>
-      Cumulative Production
+      <Title>
+        <span> Cumulative Production</span>
+      </Title>
+
       <div>
         <AreaChart
           width={500}
@@ -61,18 +41,18 @@ const CumulativeProduction = () => {
         >
           <defs>
             <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+              <stop offset="10%" stopColor="#5a59ed" stopOpacity={0.8} />
+              <stop offset="90%" stopColor="#5a59ed" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <XAxis dataKey="name" />
+          <XAxis dataKey="timestamp" />
           <YAxis />
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip />
 
           <Area
             type="monotone"
-            dataKey="pv"
+            dataKey="avgPower"
             stroke="#82ca9d"
             fillOpacity={1}
             fill="url(#colorPv)"
@@ -89,8 +69,24 @@ const Box = styled.div`
   display: flex;
   width: 500px;
   height: 500px;
-  background: #dcdcdc;
+  background: #f4f4f4;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+`;
+
+const Title = styled.div`
+  padding: 1rem 0;
+  color: #083241;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1.7rem;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+
+  span {
+    font-weight: 300;
+    font-size: 1.3rem;
+  }
 `;

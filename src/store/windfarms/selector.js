@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 export const filterWindFarms = (reduxState) => {
   const { supplier, ratedPower, year, height } = reduxState.windfarms.filters;
   const allTurbines = reduxState.windfarms.windTurbines;
@@ -55,7 +57,7 @@ export const selectTurbinesPerformanceTurbines = (windfarm) => (reduxState) => {
     return [];
   }
   const turbines = data
-    .filter((wt) => wt.turbine.p_name === windfarm)
+    .filter((wt) => windfarm.includes(wt.turbine.p_name))
     .map((wt) => wt.case_id);
   return [...new Set(turbines)];
 };
@@ -128,7 +130,22 @@ export const selectTurbinesPerformancePerformanceIndex =
   };
 
 export const selectPerformanceFilters = () => (reduxState) => {
-  const _ = require("lodash");
-  const filterData = reduxState.windfarms.performancePageFilter;
-  return _.keys(_.pickBy(filterData, _.identity));
+  return reduxState.windfarms.performancePageFilter;
+};
+
+export const selectPowerGraph = () => (reduxState) => {
+  const data = reduxState.windfarms.windTurbinesPerformancePowerGraph;
+  // console.log(data);
+  return data;
+};
+
+export const selectTurbinesAvailability = () => (reduxState) => {
+  const data = reduxState.windfarms.windTurbinesAvailability;
+  // console.log(data);
+  return data;
+};
+
+export const selectwindTurbinesAvailabilityConcat = () => (reduxState) => {
+  const data = reduxState.windfarms.windTurbinesAvailabilityConcat;
+  return data;
 };
