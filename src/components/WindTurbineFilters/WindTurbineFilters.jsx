@@ -9,6 +9,7 @@ import {
   setSupplier,
 } from "../../store/windfarms/slice";
 import WindFarmsList from "../WindFarmsList/WindFarmsList";
+import SupplierFilter from "./SupplierFilter/SupplierFlter";
 import "./WindTurbineFilter.css";
 
 const WindTurbineFilters = (props) => {
@@ -41,6 +42,7 @@ const WindTurbineFilters = (props) => {
       {filters && (
         <FiltersandFilteredWF>
           <Filters>
+            {/* <SupplierFilter /> */}
             <div>
               <label>Supplier</label>
             </div>

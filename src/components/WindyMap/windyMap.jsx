@@ -25,11 +25,6 @@ const WindyMap = () => {
       (windyAPI) => {
         const { map } = windyAPI;
 
-        // const windTurbineIcon = window.L.icon({
-        //   iconUrl: "windmill.png",
-        //   iconSize: [5, 10],
-        // });
-
         setMap(map);
       }
     );
@@ -43,7 +38,6 @@ const WindyMap = () => {
     if (markerLayer) {
       markerLayer.clearLayers();
     }
-    //console.log(markerLayer);
 
     const markerOnClick = (e) => {
       const windfarm = windFarms.filter(
@@ -51,8 +45,6 @@ const WindyMap = () => {
       )[0].p_name;
 
       navigate(`/${windfarm}`);
-
-      //console.log(e.latlng.lat, e.latlng.lng, windfarm);
     };
 
     const markers = windFarms.map((e) => {
@@ -66,20 +58,12 @@ const WindyMap = () => {
         )
         .on("popupopen", (a) => {
           const button = document.getElementById("popup-button");
-          console.log("do I have popup", e);
+          //console.log("do I have popup", e);
 
           button.addEventListener("click", (event) => {
             markerOnClick(e);
           });
         });
-      // .addEventListener("click", () => {
-      //   markerOnClick();
-      // });
-
-      // const marker = window.L.marker([e.ylat, e.xlong]).on(
-      //   "click",
-      //   markerOnClick
-      // );
 
       return marker;
     });
