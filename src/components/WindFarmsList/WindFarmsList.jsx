@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { filterWindFarms } from "../../store/windfarms/selector";
 import styled from "styled-components";
 import "./WindFarmsList.css";
+import CircularColor from "../Loading/CircularColor";
 const loDash = require("lodash");
 
 const WindFarmsList = () => {
@@ -27,6 +28,10 @@ const WindFarmsList = () => {
   useEffect(() => {
     setPageNumber(0);
   }, [windFarms]);
+
+  if (windFarms.length === 0) {
+    return <CircularColor />;
+  }
 
   return (
     <div>

@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import {
-  selectPerformanceFilters,
   selectTurbinesAvailability,
   selectwindTurbinesAvailabilityConcat,
 } from "../../store/windfarms/selector";
@@ -149,7 +148,6 @@ const PowerCurve = () => {
   const performance = useSelector(selectTurbinesAvailability());
   const performanceConcat = useSelector(selectwindTurbinesAvailabilityConcat());
 
-  console.log(performance);
   if (
     !performance ||
     performance.length === 0 ||
