@@ -40,8 +40,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(name, variable) {
+  return { name, variable };
 }
 
 const DetailsPage = () => {
@@ -56,7 +56,11 @@ const DetailsPage = () => {
   }, [dispatch, turbineModel]);
 
   if (!windFarmData || !windTurbineType) {
-    return <CircularColor />;
+    return (
+      <Boxes>
+        <CircularColor />
+      </Boxes>
+    );
   }
 
   //console.log("windTurbineType", windTurbineType, "windFarmData", windFarmData);
@@ -110,7 +114,7 @@ const DetailsPage = () => {
                           {row.name}
                         </StyledTableCell>
                         <StyledTableCell align="right">
-                          {row.calories}
+                          {row.variable}
                         </StyledTableCell>
                       </StyledTableRow>
                     ))}
@@ -185,4 +189,12 @@ const Logo = style.div`
     font-weight: 300;
     font-size: 1.3rem;
   }
+`;
+
+const Boxes = style.div`
+  display: flex;
+  background: #f4f4f4;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
