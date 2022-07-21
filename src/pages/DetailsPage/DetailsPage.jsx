@@ -193,6 +193,8 @@ const Logo = style.div`
 
 const Boxes = style.div`
   display: flex;
+  width:1600px;
+  height:800px;
   background: #f4f4f4;
   flex-direction: column;
   justify-content: center;
