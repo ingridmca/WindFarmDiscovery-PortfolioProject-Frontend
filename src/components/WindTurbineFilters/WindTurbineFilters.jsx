@@ -1,3 +1,16 @@
+import {
+  TuneRounded as TuneIcon,
+  FilterAltOutlined,
+} from "@mui/icons-material";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Slider,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -9,7 +22,6 @@ import {
   setSupplier,
 } from "../../store/windfarms/slice";
 import WindFarmsList from "../WindFarmsList/WindFarmsList";
-import SupplierFilter from "./SupplierFilter/SupplierFlter";
 import "./WindTurbineFilter.css";
 
 const WindTurbineFilters = (props) => {
@@ -37,76 +49,102 @@ const WindTurbineFilters = (props) => {
   return (
     <>
       <FilterButton onClick={() => setFilters(!filters)}>
-        <span className=".mobile-ovr-select">Filter</span>
+        <FilterAltOutlined /> Filter
       </FilterButton>
       {filters && (
         <FiltersandFilteredWF>
-          <Filters>
-            {/* <SupplierFilter /> */}
-            <div>
-              <label>Supplier</label>
-            </div>
-            <div>
-              <select
-                className="selector"
-                value={supplier}
-                onChange={(event) => handleChange(event)}
-              >
-                <option value="">All Suppliers</option>
-                <option value="GE Wind">GE</option>
-                <option value="Vestas">Vestas</option>
-                <option value="Gamesa">Gamesa</option>
-              </select>
-            </div>
+          <div>
+            <Box fullWidt sx={{ mb: 2, mx: 1 }}>
+              <FormControl fullWidth>
+                <InputLabel id="suppliers">Supplier</InputLabel>
+                <Select
+                  labelId="suppliers"
+                  value={supplier}
+                  label="Supplier"
+                  onChange={handleChange}
+                >
+                  <MenuItem value="All">All</MenuItem>
+                  <MenuItem value="GE Wind">GE</MenuItem>
+                  <MenuItem value="Vestas">Vestas</MenuItem>
+                  <MenuItem value="Gamesa">Gamesa</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
 
-            <div>
-              <label>Rated Power</label>
-              <Slider>
-                <input
-                  type="range"
-                  min="0"
-                  max="6"
-                  step="0.1"
-                  value={ratedPower}
-                  id="ratedPower"
-                  onChange={filterRatedPowerHandler}
-                />
-                {ratedPower}
-              </Slider>
-            </div>
-            <div>
-              <label>Operational Year</label>
-              <Slider>
-                <input
-                  type="range"
-                  min="1990"
-                  max="2021"
-                  step="1"
-                  value={year}
-                  id="operacionalYear"
-                  onChange={filterYearHandler}
-                />
-                {year}
-              </Slider>
-            </div>
-            <div>
-              <label>Wind Turbines Height</label>
-              <Slider>
-                <input
-                  type="range"
-                  min="50"
-                  max="150"
-                  step="1"
-                  value={height}
-                  id="ratedPower"
-                  onChange={filterHeightHandler}
-                />
-                {height}
-              </Slider>
-            </div>
-          </Filters>
+            <Box fullWidt sx={{ mb: 2, mx: 1 }}>
+              <Typography fontSize={12}>Rated Power</Typography>
+              <Slider
+                aria-label="Rated power"
+                valueLabelDisplay="auto"
+                step={0.5}
+                marks={[
+                  {
+                    value: 0,
+                    label: "0",
+                  },
+                  {
+                    value: 6,
+                    label: "6",
+                  },
+                ]}
+                min={0}
+                max={6}
+                size="small"
+                onChange={filterRatedPowerHandler}
+                value={ratedPower}
+              />
+            </Box>
+
+            <Box fullWidt sx={{ mb: 2, mx: 1 }}>
+              <Typography fontSize={12}>Wind Turbines Height</Typography>
+              <Slider
+                aria-label="Wind Turbines Height"
+                valueLabelDisplay="auto"
+                step={1}
+                marks={[
+                  {
+                    value: 50,
+                    label: "50m",
+                  },
+                  {
+                    value: 150,
+                    label: "150m",
+                  },
+                ]}
+                min={50}
+                max={150}
+                size="small"
+                onChange={filterHeightHandler}
+                value={height}
+              />
+            </Box>
+
+            <Box fullWidth sx={{ mb: 2, mx: 1 }}>
+              <Typography fontSize={12}>Operational Year</Typography>
+              <Slider
+                aria-label="Operational Year"
+                valueLabelDisplay="auto"
+                step={1}
+                marks={[
+                  {
+                    value: 1990,
+                    label: "1990",
+                  },
+                  {
+                    value: 2021,
+                    label: "2021",
+                  },
+                ]}
+                min={1990}
+                max={2021}
+                size="small"
+                onChange={filterYearHandler}
+                value={year}
+              />
+            </Box>
+          </div>
           <Results>
-            Wind Farms:
+            <Typography gutterBottom>Wind Farms</Typography>
             <WindFarmsList />
           </Results>
         </FiltersandFilteredWF>
@@ -117,60 +155,30 @@ const WindTurbineFilters = (props) => {
 export default WindTurbineFilters;
 
 const FilterButton = styled.div`
-  background: rgba(169, 169, 169, 0.5);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+  width: 80px;
+  padding: 5px 3px;
   color: white;
   z-index: 2;
-  -ms-flex-align: start;
-  -ms-flex-pack: center;
-  display: -ms-flexbox;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  top: 11%;
   position: absolute;
+  top: 75px;
   right: 10px;
-  height: 30px;
-  border-radius: 34px;
   background-color: rgba(68, 65, 65, 0.84);
-  padding: 6.5px 40px 0 15px;
-  line-height: 1;
-  text-align: right;
-  letter-spacing: 0.05em;
-  font-size: 20px;
-  max-width: 60%;
-  white-space: nowrap;
-  display: inline-block;
-  transform: scale(0.6, 0.6);
-  transform-origin: right;
-  margin-top: 5px;
-  cursor: pointer;
 `;
 
 const FiltersandFilteredWF = styled.div`
-  background: rgba(68, 65, 65, 0.84);
-  border-radius: 34px;
-  width: 180px;
-  color: white;
-  padding: 0 2rem;
+  background: rgba(255, 255, 255, 0.84);
+  width: 250px;
+  color: black;
+  padding: 2rem 1rem;
   z-index: 2;
-  bottom: 10%;
-  align-items: start;
-  justify-content: start;
-  display: flex;
-  flex-direction: column;
   position: fixed;
-  top: 17%;
+  bottom: 10%;
+  top: 15%;
   right: 0;
-`;
-const Slider = styled.div`
-  padding: 2 0rem;
-`;
-
-const Filters = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  margin-top: 20px;
-  height: 40%;
 `;
 
 const Results = styled.div`

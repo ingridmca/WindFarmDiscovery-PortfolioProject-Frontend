@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   windTurbines: [],
   filters: {
-    supplier: null,
+    supplier: "All",
     ratedPower: 0,
     year: 1990,
     height: 50,

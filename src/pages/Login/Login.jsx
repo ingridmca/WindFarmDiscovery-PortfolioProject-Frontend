@@ -51,13 +51,13 @@ const Login = () => {
           <br />
           <Button type="submit">Login</Button>
         </form>
-        <SubText>
+        {/* <SubText>
           Don't have an account yet? Click{" "}
           <Link to="/signup" style={LinkWord}>
             here
           </Link>{" "}
           to sign up
-        </SubText>
+        </SubText> */}
       </Container>
     </div>
   );

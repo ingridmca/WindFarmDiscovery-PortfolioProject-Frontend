@@ -1,10 +1,9 @@
-import _ from "lodash";
-
 export const filterWindFarms = (reduxState) => {
   const { supplier, ratedPower, year, height } = reduxState.windfarms.filters;
   const allTurbines = reduxState.windfarms.windTurbines;
 
-  const supplierCondition = (wt) => (!supplier ? true : wt.t_manu === supplier);
+  const supplierCondition = (wt) =>
+    supplier === "All" ? true : wt.t_manu === supplier;
   const powerCondition = (wt) =>
     ratedPower === 0 ? true : wt.t_cap / 1000 <= ratedPower;
 

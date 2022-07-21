@@ -1,33 +1,18 @@
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { filterWindFarms } from "../../store/windfarms/selector";
-import styled from "styled-components";
 import "./WindFarmsList.css";
 import CircularColor from "../Loading/CircularColor";
-const loDash = require("lodash");
+import { List, ListItemButton, ListItemText } from "@mui/material";
+import { styled as styledMui } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+
+const ListCard = styledMui("div")(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+}));
 
 const WindFarmsList = () => {
+  const navigate = useNavigate();
   const windFarms = useSelector(filterWindFarms);
-  const [pageNumber, setPageNumber] = useState(0);
-
-  const windfarmsArray = loDash.chunk(windFarms, 14);
-
-  const pageNumberHendler = (event) => {
-    const click = event.target.text;
-    // console.log(click);
-    if (click === "«" && pageNumber > 0) {
-      setPageNumber(pageNumber - 1);
-    } else if (click === "»" && pageNumber < windfarmsArray.length - 1) {
-      setPageNumber(pageNumber + 1);
-    } else {
-      return;
-    }
-  };
-
-  useEffect(() => {
-    setPageNumber(0);
-  }, [windFarms]);
 
   if (windFarms.length === 0) {
     return <CircularColor />;
@@ -35,36 +20,28 @@ const WindFarmsList = () => {
 
   return (
     <div>
-      <div style={{ height: 230, marginTop: 10 }}>
-        {windfarmsArray.length !== 0 &&
-          windfarmsArray[pageNumber] &&
-          windfarmsArray[pageNumber].length !== 0 &&
-          windfarmsArray[pageNumber].map((wf) => (
-            <WindFarms key={wf.p_name}>
-              <Link to={`/${wf.p_name}`}>{wf.p_name}</Link>
-            </WindFarms>
-          ))}
+      <div>
+        {windFarms?.length !== 0 && (
+          <ListCard>
+            <List
+              dense={true}
+              style={{
+                position: "relative",
+                overflow: "auto",
+                maxHeight: 165,
+              }}
+            >
+              {windFarms.map((wf) => (
+                <ListItemButton onClick={() => navigate(`/${wf.p_name}`)}>
+                  <ListItemText primary={wf.p_name} />
+                </ListItemButton>
+              ))}
+            </List>
+          </ListCard>
+        )}
       </div>
-      <Pagination>
-        <a onClick={(event) => pageNumberHendler(event)} value={pageNumber - 1}>
-          &laquo;
-        </a>
-
-        <a onClick={(event) => pageNumberHendler(event)} value={pageNumber + 1}>
-          &raquo;
-        </a>
-      </Pagination>
     </div>
   );
 };
 
 export default WindFarmsList;
-
-const WindFarms = styled.div`
-  font-size: 10px;
-  padding: 2px;
-`;
-
-const Pagination = styled.div`
-  cursor: pointer;
-`;

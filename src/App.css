@@ -7,6 +7,25 @@
   pointer-events: none;
 }
 
+#windy #mobile-ovr-select {
+  display: none !important;
+}
+
+#windy #embed-zoom {
+  top: initial !important;
+  bottom: 65px !important;
+  left: 15px !important;
+  transform: none !important;
+}
+
+#windy #embed-zoom .zoom-ctrl {
+  font-size: 18px !important;
+  line-height: 1.7 !important;
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 0 !important;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
