@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import styled from "styled-components";
 import {
   selectPerformanceFilters,
   selectTurbinesAvailability,
@@ -9,6 +10,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListSubheader from "@mui/material/ListSubheader";
 import Box from "@mui/material/Box";
+import CircularColor from "../Loading/CircularColor";
 
 const Metric = (props) => {
   const color =
@@ -42,18 +44,15 @@ const Metric = (props) => {
 };
 
 const PowerCurve = () => {
-  const windFarms = ["Groton", "Winchester", "Bear Creek"];
-  const windfarmsfilters = useSelector(selectPerformanceFilters());
-  const windfarmsfiltered =
-    _.keys(_.pickBy(windfarmsfilters, _.identity)).length === 0
-      ? windFarms
-      : _.keys(_.pickBy(windfarmsfilters, _.identity));
-
   const performance = useSelector(selectTurbinesAvailability());
   // console.log(performance);
 
-  if (!performance) {
-    return;
+  if (!performance || performance.length === 0) {
+    return (
+      <Boxes>
+        <CircularColor />
+      </Boxes>
+    );
   }
 
   const data = performance.map((el) => {
@@ -149,3 +148,13 @@ const PowerCurve = () => {
 };
 
 export default PowerCurve;
+
+const Boxes = styled.div`
+  display: flex;
+  width: 500px;
+  height: 500px;
+  background: #dcdcdc;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+`;

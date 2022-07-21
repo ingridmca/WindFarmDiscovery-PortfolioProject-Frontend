@@ -18,6 +18,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import CircularColor from "../../components/Loading/CircularColor";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -55,7 +56,7 @@ const DetailsPage = () => {
   }, [dispatch, turbineModel]);
 
   if (!windFarmData || !windTurbineType) {
-    return;
+    return <CircularColor />;
   }
 
   //console.log("windTurbineType", windTurbineType, "windFarmData", windFarmData);
@@ -140,10 +141,9 @@ const TechnicalSpecification = style.div`
   color: white;
   display: flex;
   flex-direction: column;
-
   align-items: start;
-  justify-content: space-around;
-
+  justify-content: space-between;
+  margin-top: 20px;
   height: 700px;
 `;
 
