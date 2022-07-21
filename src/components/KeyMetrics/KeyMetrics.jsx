@@ -7,6 +7,7 @@ import {
   selectTurbinesPerformancePerformanceIndex,
   selectTurbinesPerformanceProduction,
 } from "../../store/windfarms/selector";
+import CircularColor from "../Loading/CircularColor";
 
 const Metric = (props) => {
   return (
@@ -59,6 +60,18 @@ const KeyMetrics = (props) => {
   const performanceIndex = useSelector(
     selectTurbinesPerformancePerformanceIndex(windfarm)
   );
+
+  if (
+    power.length === 0 ||
+    performanceIndex.length === 0 ||
+    availability.length === 0
+  ) {
+    return (
+      <Box>
+        <CircularColor />
+      </Box>
+    );
+  }
 
   return (
     <Box>

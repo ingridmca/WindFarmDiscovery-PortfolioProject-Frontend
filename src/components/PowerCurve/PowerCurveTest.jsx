@@ -21,6 +21,7 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import CircularColor from "../Loading/CircularColor";
 
 const Metric = (props) => {
   const color =
@@ -147,10 +148,19 @@ function createData(name, avgAvaiability, avgPerformance, data) {
 const PowerCurve = () => {
   const performance = useSelector(selectTurbinesAvailability());
   const performanceConcat = useSelector(selectwindTurbinesAvailabilityConcat());
-  console.log(performanceConcat);
 
-  if (!performance) {
-    return;
+  console.log(performance);
+  if (
+    !performance ||
+    performance.length === 0 ||
+    performanceConcat.length === 0 ||
+    !performanceConcat
+  ) {
+    return (
+      <Boxes>
+        <CircularColor />
+      </Boxes>
+    );
   }
 
   const data = performance.map((el) => {
@@ -169,8 +179,6 @@ const PowerCurve = () => {
       data
     )
   );
-
-  console.log(rows, performanceConcat);
 
   return (
     <BackgroundBox>
@@ -201,6 +209,16 @@ const PowerCurve = () => {
 export default PowerCurve;
 
 const BackgroundBox = styled.div`
+  display: flex;
+  width: 500px;
+  height: 500px;
+  background: #dcdcdc;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+`;
+
+const Boxes = styled.div`
   display: flex;
   width: 500px;
   height: 500px;

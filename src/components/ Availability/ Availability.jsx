@@ -10,6 +10,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListSubheader from "@mui/material/ListSubheader";
 import Box from "@mui/material/Box";
+import CircularColor from "../Loading/CircularColor";
 
 const Metric = (props) => {
   const color =
@@ -43,18 +44,15 @@ const Metric = (props) => {
 };
 
 const Availability = () => {
-  const windFarms = ["Groton", "Winchester", "Bear Creek"];
-  const windfarmsfilters = useSelector(selectPerformanceFilters());
-  const windfarmsfiltered =
-    _.keys(_.pickBy(windfarmsfilters, _.identity)).length === 0
-      ? windFarms
-      : _.keys(_.pickBy(windfarmsfilters, _.identity));
-
   const availability = useSelector(selectTurbinesAvailability());
   // console.log(availability);
 
-  if (!availability) {
-    return;
+  if (!availability || availability.length === 0) {
+    return (
+      <Boxes>
+        <CircularColor />
+      </Boxes>
+    );
   }
 
   const data = availability.map((el) => {

@@ -10,6 +10,7 @@ import {
 } from "recharts";
 import { useSelector } from "react-redux";
 import { selectPowerGraph } from "../../store/windfarms/selector";
+import CircularColor from "../Loading/CircularColor";
 
 const CumulativeProduction = () => {
   const allData = useSelector(selectPowerGraph());
@@ -22,7 +23,11 @@ const CumulativeProduction = () => {
   });
 
   if (data.length === 0 || !data) {
-    return "Loading";
+    return (
+      <Box>
+        <CircularColor />
+      </Box>
+    );
   }
 
   return (
