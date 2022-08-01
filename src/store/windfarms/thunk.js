@@ -10,7 +10,7 @@ import {
   windTurbinesPerformancePowerGraphFetched,
 } from "./slice";
 
-const API_URL = `https://wind-farm-discovery.herokuapp.com/`;
+const API_URL = `https://wind-farm-discovery.herokuapp.com`;
 
 export const fetchTurbines = () => async (dispatch, getState) => {
   try {
