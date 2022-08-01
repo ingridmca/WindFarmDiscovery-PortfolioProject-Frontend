@@ -28,7 +28,7 @@ const WindFarmsList = () => {
               style={{
                 position: "relative",
                 overflow: "auto",
-                maxHeight: 165,
+                maxHeight: 290,
               }}
             >
               {windFarms.map((wf) => (
