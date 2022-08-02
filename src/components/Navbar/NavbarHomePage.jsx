@@ -9,6 +9,7 @@ import * as React from "react";
 import Popover from "@mui/material/Popover";
 import WindPowerIcon from "@mui/icons-material/WindPower";
 import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 
 export const NavigationHomePage = () => {
   //const [open, setOpen] = useState(false);
@@ -33,7 +34,7 @@ export const NavigationHomePage = () => {
     <Nav>
       <Menu>
         {token ? (
-          <MenuLink>
+          <MenuItem>
             <>
               <PersonIcon
                 aria-describedby={id}
@@ -56,26 +57,33 @@ export const NavigationHomePage = () => {
                 </Button>
               </Popover>
             </>
-          </MenuLink>
+          </MenuItem>
         ) : (
-          <MenuLink href="/login">
-            <AiOutlineUser />
-          </MenuLink>
+          <Link to="/login">
+            <MenuItem>
+              <AiOutlineUser />
+            </MenuItem>
+          </Link>
         )}
       </Menu>
       {token && (
-        <MenuLink href="/performance">
-          <WindPowerIcon />
-        </MenuLink>
+        <Link to="/performance">
+          <MenuItem>
+            <WindPowerIcon />
+          </MenuItem>
+        </Link>
       )}
-      <Logo href="/">
-        Wind Farm<span>Discovery</span>
+
+      <Logo>
+        <Link to="/">
+          Wind Farm<span>Discovery</span>
+        </Link>
       </Logo>
     </Nav>
   );
 };
 
-const MenuLink = styled.a`
+const MenuItem = styled.span`
   padding: 1rem 1rem;
   cursor: pointer;
   text-align: center;
@@ -103,7 +111,7 @@ const Nav = styled.div`
   max-width: 420px;
 `;
 
-const Logo = styled.a`
+const Logo = styled.span`
   padding: 1rem 0;
   color: #ececec;
   text-decoration: none;
