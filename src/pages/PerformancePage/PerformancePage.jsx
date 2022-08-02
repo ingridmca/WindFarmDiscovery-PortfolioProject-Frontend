@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import KeyMetrics from "../../components/KeyMetrics/KeyMetrics";
 import { NavigationPages } from "../../components/Navbar/NavbarPages";
@@ -18,15 +18,14 @@ import WindFarmPerformanceToggle from "../../components/WindFarmPerformanceToggl
 
 const PerformancePage = () => {
   const dispatch = useDispatch();
-  const windFarms = ["Groton", "Winchester", "Bear Creek"];
   const windfarmsfilters = useSelector(selectPerformanceFilters());
+  const [windFarmsToShow] = useState(["Groton", "Winchester", "Bear Creek"]);
 
   useEffect(() => {
-    const windFarms2 = ["Groton", "Winchester", "Bear Creek"];
     dispatch(
       fetchwindTurbinesPerformancePowerGraph(
         _.keys(_.pickBy(windfarmsfilters, _.identity)).length === 0
-          ? windFarms2
+          ? windFarmsToShow
           : _.keys(_.pickBy(windfarmsfilters, _.identity))
       )
     );
@@ -34,7 +33,7 @@ const PerformancePage = () => {
     dispatch(
       fetchwindTurbinesAvailability(
         _.keys(_.pickBy(windfarmsfilters, _.identity)).length === 0
-          ? windFarms2
+          ? windFarmsToShow
           : _.keys(_.pickBy(windfarmsfilters, _.identity))
       )
     );
@@ -44,11 +43,11 @@ const PerformancePage = () => {
     dispatch(
       fetchwindTurbinesAvailabilityConcat(
         _.keys(_.pickBy(windfarmsfilters, _.identity)).length === 0
-          ? windFarms2
+          ? windFarmsToShow
           : _.keys(_.pickBy(windfarmsfilters, _.identity))
       )
     );
-  }, [dispatch, windfarmsfilters]);
+  }, [dispatch, windfarmsfilters, windFarmsToShow]);
 
   return (
     <div>
@@ -59,7 +58,7 @@ const PerformancePage = () => {
 
       <PageDisplay>
         <Filters>
-          {windFarms.length === 0 ? (
+          {windFarmsToShow.length === 0 ? (
             "loading"
           ) : (
             <div>
@@ -67,7 +66,7 @@ const PerformancePage = () => {
                 <span> Wind Farms</span>
               </Title>
 
-              {windFarms.map((wf) => {
+              {windFarmsToShow.map((wf) => {
                 return <WindFarmPerformanceToggle windfarm={wf} key={wf} />;
               })}
             </div>
@@ -76,7 +75,7 @@ const PerformancePage = () => {
 
         <CentralPage>
           <Boxes>
-            <KeyMetrics windFarms={windFarms} />
+            <KeyMetrics windFarms={windFarmsToShow} />
             <CumulativeProduction />
           </Boxes>
           <Boxes>
