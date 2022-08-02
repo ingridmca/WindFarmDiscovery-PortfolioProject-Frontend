@@ -8,7 +8,8 @@ import "./windyMap.css";
 
 const WindyMap = () => {
   const windFarms = useSelector(filterWindFarms);
-  const [markerLayer, setMarkerLayer] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [_, setMarkerLayer] = useState(null);
   const [map, setMap] = useState();
   let navigate = useNavigate();
 
@@ -32,9 +33,6 @@ const WindyMap = () => {
   useEffect(() => {
     if (!map) {
       return;
-    }
-    if (markerLayer) {
-      markerLayer.clearLayers();
     }
 
     const markerOnClick = (e) => {
@@ -68,9 +66,16 @@ const WindyMap = () => {
     const newMarkersLayer = window.L.layerGroup(markers);
     map.addLayer(newMarkersLayer);
 
-    setMarkerLayer(newMarkersLayer);
-    // console.log(markerLayer);
+    setMarkerLayer((oldMarkerLayer) => {
+      if (oldMarkerLayer) {
+        oldMarkerLayer.clearLayers();
+      }
+
+      return newMarkersLayer;
+    });
   }, [windFarms, map, navigate]);
+
+  useEffect(() => {});
 
   return (
     <div>
