@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import KeyMetrics from "../../components/KeyMetrics/KeyMetrics";
 import { NavigationPages } from "../../components/Navbar/NavbarPages";
@@ -22,10 +22,11 @@ const PerformancePage = () => {
   const windfarmsfilters = useSelector(selectPerformanceFilters());
 
   useEffect(() => {
+    const windFarms2 = ["Groton", "Winchester", "Bear Creek"];
     dispatch(
       fetchwindTurbinesPerformancePowerGraph(
         _.keys(_.pickBy(windfarmsfilters, _.identity)).length === 0
-          ? windFarms
+          ? windFarms2
           : _.keys(_.pickBy(windfarmsfilters, _.identity))
       )
     );
@@ -33,7 +34,7 @@ const PerformancePage = () => {
     dispatch(
       fetchwindTurbinesAvailability(
         _.keys(_.pickBy(windfarmsfilters, _.identity)).length === 0
-          ? windFarms
+          ? windFarms2
           : _.keys(_.pickBy(windfarmsfilters, _.identity))
       )
     );
@@ -43,11 +44,11 @@ const PerformancePage = () => {
     dispatch(
       fetchwindTurbinesAvailabilityConcat(
         _.keys(_.pickBy(windfarmsfilters, _.identity)).length === 0
-          ? windFarms
+          ? windFarms2
           : _.keys(_.pickBy(windfarmsfilters, _.identity))
       )
     );
-  }, [dispatch, windfarmsfilters, windFarms]);
+  }, [dispatch, windfarmsfilters]);
 
   return (
     <div>
