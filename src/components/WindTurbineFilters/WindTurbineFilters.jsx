@@ -1,7 +1,4 @@
-import {
-  TuneRounded as TuneIcon,
-  FilterAltOutlined,
-} from "@mui/icons-material";
+import { FilterAltOutlined } from "@mui/icons-material";
 import {
   Box,
   FormControl,

@@ -1,10 +1,6 @@
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import {
-  selectPerformanceFilters,
-  selectTurbinesAvailability,
-} from "../../store/windfarms/selector";
-import _ from "lodash";
+import { selectTurbinesAvailability } from "../../store/windfarms/selector";
 import * as React from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";

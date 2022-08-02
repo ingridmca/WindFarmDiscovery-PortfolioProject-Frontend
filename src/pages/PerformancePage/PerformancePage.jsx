@@ -47,7 +47,7 @@ const PerformancePage = () => {
           : _.keys(_.pickBy(windfarmsfilters, _.identity))
       )
     );
-  }, [dispatch, windfarmsfilters]);
+  }, [dispatch, windfarmsfilters, windFarms]);
 
   return (
     <div>

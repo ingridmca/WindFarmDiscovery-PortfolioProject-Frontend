@@ -8,8 +8,7 @@ import "./windyMap.css";
 
 const WindyMap = () => {
   const windFarms = useSelector(filterWindFarms);
-  const [markerLayer, setMarkerLayer] = useState();
-
+  const [markerLayer, setMarkerLayer] = useState(null);
   const [map, setMap] = useState();
   let navigate = useNavigate();
 
@@ -34,7 +33,6 @@ const WindyMap = () => {
     if (!map) {
       return;
     }
-
     if (markerLayer) {
       markerLayer.clearLayers();
     }
