@@ -15,11 +15,20 @@ import Availability from "../../components/ Availability/ Availability";
 import PowerCurve from "../../components/PowerCurve/PowerCurve";
 import { selectPerformanceFilters } from "../../store/windfarms/selector";
 import WindFarmPerformanceToggle from "../../components/WindFarmPerformanceToggle/WindFarmPerformanceToggle2";
+import { selectToken } from "../../store/user/selectors";
+import { useNavigate } from "react-router-dom";
 
 const PerformancePage = () => {
   const dispatch = useDispatch();
   const windfarmsfilters = useSelector(selectPerformanceFilters());
   const [windFarmsToShow] = useState(["Groton", "Winchester", "Bear Creek"]);
+
+  const token = useSelector(selectToken);
+  const navigate = useNavigate();
+
+  if (!token) {
+    navigate(`/`);
+  }
 
   useEffect(() => {
     dispatch(
