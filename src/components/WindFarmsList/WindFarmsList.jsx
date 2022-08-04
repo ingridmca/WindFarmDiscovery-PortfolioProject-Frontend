@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { filterWindFarms } from "../../store/windfarms/selector";
+import { filterWindFarms, selectFilters } from "../../store/windfarms/selector";
 import "./WindFarmsList.css";
 import CircularColor from "../Loading/CircularColor";
 import { List, ListItemButton, ListItemText } from "@mui/material";
@@ -13,8 +13,15 @@ const ListCard = styledMui("div")(({ theme }) => ({
 const WindFarmsList = () => {
   const navigate = useNavigate();
   const windFarms = useSelector(filterWindFarms);
+  const filters = useSelector(selectFilters);
 
-  if (windFarms.length === 0) {
+  if (
+    windFarms.length === 0 &&
+    filters.supplier === "All" &&
+    filters.ratedPower === 0 &&
+    filters.height === 50 &&
+    filters.year === 1990
+  ) {
     return <CircularColor />;
   }
 

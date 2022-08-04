@@ -21,7 +21,7 @@ import {
 import WindFarmsList from "../WindFarmsList/WindFarmsList";
 import "./WindTurbineFilter.css";
 
-const WindTurbineFilters = (props) => {
+const WindTurbineFilters = () => {
   const dispatch = useDispatch();
   const [filters, setFilters] = useState(true);
 
